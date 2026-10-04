@@ -1,0 +1,51 @@
+slug: where
+modulo: basico
+orden: 2
+dataset: bodega
+duracion_min: 12
+titulo: Filtrar filas con WHERE
+resumen: Quédate solo con las filas que cumplen una condición.
+tags:
+- where
+- filtrar
+- condicion
+- comparar
+aprenderas:
+- Filtrar filas con WHERE
+- Comparar números con >, <, >= y <=
+- Comparar textos entre comillas simples
+- Usar <> para decir “distinto de”
+secciones:
+- titulo: La cláusula WHERE
+  cuerpo_md: 'Muchas veces no necesitas todas las filas. `WHERE` va después de `FROM` e indica una condición: solo aparecen las filas donde la condición es verdadera.'
+  ejemplo:
+    sql: |-
+      SELECT nombre, distrito
+      FROM clientes
+      WHERE distrito = 'Surquillo';
+    nota: Los textos van entre comillas simples y deben escribirse igual que en la tabla, respetando mayúsculas y tildes.
+  tip: null
+- titulo: Comparar números
+  cuerpo_md: |-
+    Con números puedes usar estos operadores:
+
+    | Operador | Significa | Ejemplo |
+    | --- | --- | --- |
+    | `=` | igual a | `stock = 0` |
+    | `<>` | distinto de | `categoria <> 'Snacks'` |
+    | `>` / `<` | mayor / menor que | `precio > 5` |
+    | `>=` / `<=` | mayor / menor o igual | `precio <= 2` |
+  ejemplo:
+    sql: |-
+      SELECT nombre, precio
+      FROM productos
+      WHERE precio >= 7;
+    nota: null
+  tip: null
+ejercicios:
+- enunciado_md: Muestra el **nombre** y el **precio** de los productos de la categoría **Bebidas**.
+  solucion_sql: SELECT nombre, precio FROM productos WHERE categoria = 'Bebidas'
+  ordenado: false
+- enunciado_md: Doña Rosa quiere saber qué productos debe reponer. Muestra el **nombre** y el **stock** de los productos con **menos de 20 unidades**.
+  solucion_sql: SELECT nombre, stock FROM productos WHERE stock < 20
+  ordenado: false

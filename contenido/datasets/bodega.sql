@@ -1,0 +1,38 @@
+CREATE TABLE productos (id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, categoria TEXT NOT NULL, precio REAL NOT NULL, stock INTEGER NOT NULL);
+INSERT INTO productos VALUES (1, 'Inca Kola 500 ml', 'Bebidas', 3.50, 48);
+INSERT INTO productos VALUES (2, 'Coca-Cola 1.5 L', 'Bebidas', 7.00, 24);
+INSERT INTO productos VALUES (3, 'Agua San Luis 625 ml', 'Bebidas', 2.00, 60);
+INSERT INTO productos VALUES (4, 'Arroz Costeño 1 kg', 'Abarrotes', 4.80, 35);
+INSERT INTO productos VALUES (5, 'Aceite Primor 1 L', 'Abarrotes', 11.50, 18);
+INSERT INTO productos VALUES (6, 'Azúcar rubia 1 kg', 'Abarrotes', 4.20, 40);
+INSERT INTO productos VALUES (7, 'Leche Gloria tarro', 'Lácteos', 4.30, 72);
+INSERT INTO productos VALUES (8, 'Yogurt Laive 1 L', 'Lácteos', 6.90, 15);
+INSERT INTO productos VALUES (9, 'Pan francés (unidad)', 'Panadería', 0.30, 200);
+INSERT INTO productos VALUES (10, 'Galletas Casino', 'Snacks', 1.20, 90);
+INSERT INTO productos VALUES (11, 'Papitas Lay''s', 'Snacks', 2.50, 30);
+INSERT INTO productos VALUES (12, 'Detergente Bolívar 500 g', 'Limpieza', 8.90, 12);
+
+CREATE TABLE clientes (id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, distrito TEXT NOT NULL);
+INSERT INTO clientes VALUES (1, 'Lucía Quispe', 'Surquillo');
+INSERT INTO clientes VALUES (2, 'Jorge Huamán', 'Miraflores');
+INSERT INTO clientes VALUES (3, 'María Flores', 'Surquillo');
+INSERT INTO clientes VALUES (4, 'Carlos Rojas', 'San Borja');
+INSERT INTO clientes VALUES (5, 'Rosa Mamani', 'Surquillo');
+INSERT INTO clientes VALUES (6, 'Pedro Salazar', 'Barranco');
+
+CREATE TABLE ventas (id INTEGER PRIMARY KEY, producto_id INTEGER NOT NULL, cliente_id INTEGER NOT NULL, cantidad INTEGER NOT NULL, fecha TEXT NOT NULL);
+INSERT INTO ventas VALUES (1, 1, 1, 2, '2026-09-01');
+INSERT INTO ventas VALUES (2, 9, 1, 10, '2026-09-01');
+INSERT INTO ventas VALUES (3, 7, 3, 3, '2026-09-02');
+INSERT INTO ventas VALUES (4, 4, 2, 1, '2026-09-02');
+INSERT INTO ventas VALUES (5, 2, 4, 1, '2026-09-03');
+INSERT INTO ventas VALUES (6, 10, 5, 4, '2026-09-03');
+INSERT INTO ventas VALUES (7, 5, 3, 1, '2026-09-04');
+INSERT INTO ventas VALUES (8, 1, 6, 6, '2026-09-05');
+INSERT INTO ventas VALUES (9, 9, 5, 8, '2026-09-05');
+INSERT INTO ventas VALUES (10, 11, 2, 2, '2026-09-06');
+INSERT INTO ventas VALUES (11, 8, 4, 1, '2026-09-06');
+INSERT INTO ventas VALUES (12, 3, 1, 3, '2026-09-07');
+INSERT INTO ventas VALUES (13, 12, 3, 1, '2026-09-07');
+INSERT INTO ventas VALUES (14, 7, 6, 2, '2026-09-08');
+INSERT INTO ventas VALUES (15, 6, 2, 2, '2026-09-08');

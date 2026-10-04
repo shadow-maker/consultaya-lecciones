@@ -1,0 +1,48 @@
+slug: select-from
+modulo: basico
+orden: 1
+dataset: bodega
+duracion_min: 10
+titulo: 'Tu primera consulta: SELECT y FROM'
+resumen: Lee datos de una tabla eligiendo solo las columnas que necesitas.
+tags:
+- select
+- from
+- columnas
+- tabla
+aprenderas:
+- 'Qué es una tabla: filas y columnas'
+- Elegir columnas con SELECT
+- Indicar la tabla con FROM
+- Traer todas las columnas con *
+secciones:
+- titulo: ¿Qué es una tabla?
+  cuerpo_md: |-
+    Una base de datos guarda la información en **tablas**, parecidas a una hoja de Excel. Cada **fila** es un registro (por ejemplo, un cliente) y cada **columna** es un dato de ese registro (su nombre, su distrito).
+
+    En esta lección usaremos los datos de la **Bodega Doña Rosa**, una bodega de Surquillo que registra sus productos, clientes y ventas.
+  ejemplo: null
+  tip: null
+- titulo: Elegir columnas con SELECT … FROM
+  cuerpo_md: Para leer datos escribimos `SELECT`, luego las columnas que queremos ver separadas por comas y, al final, `FROM` con el nombre de la tabla.
+  ejemplo:
+    sql: |-
+      SELECT nombre, distrito
+      FROM clientes;
+    nota: Pedimos solo dos columnas de la tabla clientes. Las columnas aparecen en el mismo orden en que las escribes.
+  tip: null
+- titulo: Todas las columnas con *
+  cuerpo_md: Si quieres ver todas las columnas, usa un asterisco (`*`). Es útil para explorar una tabla por primera vez.
+  ejemplo:
+    sql: |-
+      SELECT *
+      FROM clientes;
+    nota: null
+  tip: Las palabras clave como SELECT y FROM pueden ir en mayúsculas o minúsculas, pero en mayúsculas la consulta se lee mejor. El punto y coma final es opcional.
+ejercicios:
+- enunciado_md: Muestra **todas las columnas** de la tabla `productos`.
+  solucion_sql: SELECT * FROM productos
+  ordenado: false
+- enunciado_md: Muestra solo el **nombre** y el **precio** de cada producto, en ese orden.
+  solucion_sql: SELECT nombre, precio FROM productos
+  ordenado: false

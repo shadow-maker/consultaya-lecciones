@@ -1,0 +1,42 @@
+slug: join
+modulo: avanzado
+orden: 7
+dataset: bodega
+duracion_min: 15
+titulo: Combinar tablas con JOIN
+resumen: Une la información de varias tablas relacionadas por sus id.
+tags:
+- join
+- 'on'
+- unir
+- tablas
+- alias
+- relaciones
+aprenderas:
+- Por qué los datos se reparten en varias tablas
+- Unir tablas con JOIN … ON
+- Usar alias cortos para las tablas
+- Agrupar después de unir
+secciones:
+- titulo: ¿Por qué hay varias tablas?
+  cuerpo_md: 'La tabla `ventas` no repite el nombre del producto ni del cliente: guarda sus **id** (`producto_id`, `cliente_id`). Así se evita duplicar información. Para ver los nombres hay que **unir** tablas.'
+  ejemplo: null
+  tip: null
+- titulo: JOIN … ON
+  cuerpo_md: '`JOIN` une dos tablas y `ON` indica qué columnas deben coincidir. Los alias cortos (`v`, `p`) ahorran escritura: `v.cantidad` significa “la columna cantidad de la tabla ventas”.'
+  ejemplo:
+    sql: |-
+      SELECT v.fecha, p.nombre, v.cantidad
+      FROM ventas v
+      JOIN productos p ON v.producto_id = p.id
+      ORDER BY v.fecha
+      LIMIT 5;
+    nota: null
+  tip: 'Puedes agrupar después de unir: primero se combinan las filas y luego se resumen con GROUP BY.'
+ejercicios:
+- enunciado_md: Muestra el **nombre del cliente** y la **fecha** de cada venta.
+  solucion_sql: SELECT c.nombre, v.fecha FROM ventas v JOIN clientes c ON v.cliente_id = c.id
+  ordenado: false
+- enunciado_md: Calcula cuántas **unidades** se vendieron de cada **categoría** de producto.
+  solucion_sql: SELECT p.categoria, SUM(v.cantidad) FROM ventas v JOIN productos p ON v.producto_id = p.id GROUP BY p.categoria
+  ordenado: false

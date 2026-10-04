@@ -1,0 +1,42 @@
+slug: metricas
+modulo: avanzado
+orden: 8
+dataset: campanas
+duracion_min: 15
+titulo: Métricas de negocio con expresiones
+resumen: Calcula indicadores como costo por clic y tasa de conversión.
+tags:
+- metricas
+- calculos
+- expresiones
+- tasa
+- conversion
+- marketing
+- round
+aprenderas:
+- Hacer cálculos con columnas (+ − * /)
+- Redondear resultados con ROUND
+- Ordenar por una métrica calculada
+- Combinar cálculos con GROUP BY y HAVING
+secciones:
+- titulo: El dataset de campañas
+  cuerpo_md: '**TiendaNova**, una tienda online, registra sus campañas de marketing: el canal, el presupuesto (S/), los clics y las conversiones (ventas logradas).'
+  ejemplo: null
+  tip: null
+- titulo: Cálculos en el SELECT
+  cuerpo_md: Puedes operar con columnas y darle un nombre al resultado. Por ejemplo, el **costo por clic** es el presupuesto dividido entre los clics.
+  ejemplo:
+    sql: |-
+      SELECT nombre,
+             ROUND(presupuesto / clics, 2) AS costo_por_clic
+      FROM campanas
+      ORDER BY costo_por_clic;
+    nota: null
+  tip: Tasa de conversión = conversiones × 100 / clics. Escribe 100.0 (con decimal) para que bases de datos como PostgreSQL no hagan división entera.
+ejercicios:
+- enunciado_md: Calcula la **tasa de conversión** de cada campaña (conversiones × 100 / clics). Muestra el **nombre** y la **tasa**, de la mayor a la menor.
+  solucion_sql: SELECT nombre, ROUND(conversiones * 100.0 / clics, 2) AS tasa FROM campanas ORDER BY tasa DESC
+  ordenado: true
+- enunciado_md: Muestra el **presupuesto total por canal**, solo para los canales que invirtieron **más de S/ 2 000** en total.
+  solucion_sql: SELECT canal, SUM(presupuesto) FROM campanas GROUP BY canal HAVING SUM(presupuesto) > 2000
+  ordenado: false

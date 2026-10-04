@@ -1,0 +1,16 @@
+slug: campanas
+nombre: Campañas de TiendaNova
+lugar: Tienda online
+icono: megaphone
+descripcion: Presupuesto, clics y conversiones de campañas de marketing digital.
+tablas:
+- nombre: campanas
+  descripcion: Una fila por campaña. Presupuesto en soles; conversiones = ventas logradas.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: nombre, tipo: TEXT}
+  - {nombre: canal, tipo: TEXT}
+  - {nombre: presupuesto, tipo: DECIMAL}
+  - {nombre: clics, tipo: INTEGER}
+  - {nombre: conversiones, tipo: INTEGER}
+  - {nombre: mes, tipo: TEXT}

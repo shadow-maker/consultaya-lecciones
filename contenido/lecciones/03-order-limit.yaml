@@ -1,0 +1,46 @@
+slug: order-limit
+modulo: basico
+orden: 3
+dataset: bodega
+duracion_min: 10
+titulo: Ordenar y limitar resultados
+resumen: 'Ordena tus resultados y quédate con los primeros: ideal para rankings.'
+tags:
+- order
+- by
+- limit
+- ordenar
+- asc
+- desc
+- ranking
+aprenderas:
+- Ordenar con ORDER BY
+- Elegir orden ascendente (ASC) o descendente (DESC)
+- Limitar la cantidad de filas con LIMIT
+secciones:
+- titulo: Ordenar con ORDER BY
+  cuerpo_md: '`ORDER BY` ordena las filas según una columna. Por defecto el orden es ascendente (`ASC`): de menor a mayor o de la A a la Z. Con `DESC` el orden es descendente.'
+  ejemplo:
+    sql: |-
+      SELECT nombre, stock
+      FROM productos
+      ORDER BY stock DESC;
+    nota: null
+  tip: null
+- titulo: Limitar con LIMIT
+  cuerpo_md: '`LIMIT` va al final e indica cuántas filas quieres como máximo. Combinado con `ORDER BY` sirve para armar rankings: los más vendidos, los más baratos, etc.'
+  ejemplo:
+    sql: |-
+      SELECT nombre, precio
+      FROM productos
+      ORDER BY precio
+      LIMIT 3;
+    nota: Los 3 productos más baratos de la bodega.
+  tip: 'Orden de las cláusulas: SELECT → FROM → WHERE → ORDER BY → LIMIT.'
+ejercicios:
+- enunciado_md: Muestra los **3 productos más caros** (nombre y precio), del más caro al más barato.
+  solucion_sql: SELECT nombre, precio FROM productos ORDER BY precio DESC LIMIT 3
+  ordenado: true
+- enunciado_md: Lista el **nombre** de todos los clientes en **orden alfabético**.
+  solucion_sql: SELECT nombre FROM clientes ORDER BY nombre
+  ordenado: true

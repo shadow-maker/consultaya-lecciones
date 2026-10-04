@@ -1,0 +1,12 @@
+- slug: basico
+  nombre: Básico
+  orden: 1
+  descripcion: 'Lee y filtra datos de una tabla: SELECT, WHERE, ORDER BY y LIMIT.'
+- slug: intermedio
+  nombre: Intermedio
+  orden: 2
+  descripcion: Combina condiciones y resume información con funciones de agregación y GROUP BY.
+- slug: avanzado
+  nombre: Avanzado
+  orden: 3
+  descripcion: Une tablas con JOIN y calcula métricas de negocio.

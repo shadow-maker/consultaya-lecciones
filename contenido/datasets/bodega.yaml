@@ -1,0 +1,28 @@
+slug: bodega
+nombre: Bodega Doña Rosa
+lugar: Surquillo, Lima
+icono: store
+descripcion: Productos, clientes y ventas diarias de una bodega de barrio.
+tablas:
+- nombre: productos
+  descripcion: Catálogo de productos con su precio (S/) y unidades en stock.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: nombre, tipo: TEXT}
+  - {nombre: categoria, tipo: TEXT}
+  - {nombre: precio, tipo: DECIMAL}
+  - {nombre: stock, tipo: INTEGER}
+- nombre: clientes
+  descripcion: Clientes frecuentes de la bodega.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: nombre, tipo: TEXT}
+  - {nombre: distrito, tipo: TEXT}
+- nombre: ventas
+  descripcion: Cada venta registra qué producto, a qué cliente, cuántas unidades y cuándo.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: producto_id, tipo: INTEGER}
+  - {nombre: cliente_id, tipo: INTEGER}
+  - {nombre: cantidad, tipo: INTEGER}
+  - {nombre: fecha, tipo: DATE}

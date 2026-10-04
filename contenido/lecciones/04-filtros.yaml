@@ -1,0 +1,51 @@
+slug: filtros
+modulo: intermedio
+orden: 4
+dataset: delivery
+duracion_min: 12
+titulo: 'Condiciones combinadas: AND, OR, IN y LIKE'
+resumen: Combina varias condiciones y busca patrones dentro de los textos.
+tags:
+- and
+- or
+- in
+- like
+- condiciones
+- combinadas
+- patrones
+aprenderas:
+- Exigir varias condiciones con AND
+- Aceptar alternativas con OR
+- Comparar contra una lista con IN
+- Buscar patrones de texto con LIKE
+secciones:
+- titulo: Conoce el dataset RapiMenú
+  cuerpo_md: '**RapiMenú** es una app de delivery en Lima. La tabla `pedidos` guarda cada pedido con su distrito, monto (en soles), estado y fecha; la tabla `restaurantes` guarda los locales afiliados.'
+  ejemplo: null
+  tip: null
+- titulo: AND y OR
+  cuerpo_md: '`AND` exige que se cumplan ambas condiciones; `OR`, que se cumpla al menos una. Si las mezclas, usa paréntesis para dejar claro qué se evalúa primero.'
+  ejemplo:
+    sql: |-
+      SELECT id, distrito, monto, estado
+      FROM pedidos
+      WHERE estado = 'cancelado' OR monto < 30;
+    nota: null
+  tip: null
+- titulo: IN y LIKE
+  cuerpo_md: '`IN` compara contra una lista de valores. `LIKE` busca patrones en textos: `%` reemplaza cualquier cantidad de caracteres y `_` reemplaza uno solo.'
+  ejemplo:
+    sql: |-
+      SELECT nombre, tipo_cocina
+      FROM restaurantes
+      WHERE nombre LIKE 'Chifa%'
+         OR tipo_cocina IN ('Criolla', 'Marina');
+    nota: null
+  tip: null
+ejercicios:
+- enunciado_md: Muestra el **id**, el **distrito** y el **monto** de los pedidos **entregados** con monto **mayor a S/ 50**.
+  solucion_sql: SELECT id, distrito, monto FROM pedidos WHERE estado = 'entregado' AND monto > 50
+  ordenado: false
+- enunciado_md: Muestra el **nombre** y el **distrito** de los restaurantes ubicados en **Miraflores** o **Barranco**.
+  solucion_sql: SELECT nombre, distrito FROM restaurantes WHERE distrito IN ('Miraflores', 'Barranco')
+  ordenado: false

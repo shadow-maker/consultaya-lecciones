@@ -1,0 +1,49 @@
+slug: agregacion
+modulo: intermedio
+orden: 5
+dataset: delivery
+duracion_min: 12
+titulo: 'Resumir datos: COUNT, SUM, AVG, MIN y MAX'
+resumen: 'Convierte muchas filas en un solo número: totales, promedios y conteos.'
+tags:
+- count
+- sum
+- avg
+- min
+- max
+- round
+- agregacion
+- resumen
+- alias
+- as
+aprenderas:
+- Contar filas con COUNT
+- Sumar y promediar con SUM y AVG
+- Encontrar extremos con MIN y MAX
+- Nombrar resultados con AS y redondear con ROUND
+secciones:
+- titulo: Funciones de agregación
+  cuerpo_md: 'Hasta ahora cada fila del resultado era una fila de la tabla. Las **funciones de agregación** resumen muchas filas en un solo valor: `COUNT` cuenta, `SUM` suma, `AVG` promedia y `MIN` / `MAX` encuentran el menor y el mayor.'
+  ejemplo:
+    sql: |-
+      SELECT COUNT(*) AS total_pedidos,
+             MAX(monto) AS pedido_mas_alto
+      FROM pedidos;
+    nota: null
+  tip: null
+- titulo: Ponle nombre al resultado con AS
+  cuerpo_md: '`AS` le da un alias a la columna del resultado. `ROUND(valor, 2)` redondea a 2 decimales, muy útil con montos en soles.'
+  ejemplo:
+    sql: |-
+      SELECT ROUND(AVG(monto), 2) AS ticket_promedio
+      FROM pedidos
+      WHERE estado = 'entregado';
+    nota: El ticket promedio de los pedidos entregados.
+  tip: null
+ejercicios:
+- enunciado_md: ¿Cuántos pedidos fueron **entregados**? Devuelve una sola columna con la cantidad.
+  solucion_sql: SELECT COUNT(*) FROM pedidos WHERE estado = 'entregado'
+  ordenado: false
+- enunciado_md: Calcula el **monto total** (suma) de los pedidos **entregados**.
+  solucion_sql: SELECT SUM(monto) FROM pedidos WHERE estado = 'entregado'
+  ordenado: false

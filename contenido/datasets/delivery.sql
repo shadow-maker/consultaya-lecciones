@@ -1,0 +1,24 @@
+CREATE TABLE restaurantes (id INTEGER PRIMARY KEY, nombre TEXT NOT NULL, tipo_cocina TEXT NOT NULL, distrito TEXT NOT NULL);
+INSERT INTO restaurantes VALUES (1, 'Pollería El Dorado', 'Pollería', 'Lince');
+INSERT INTO restaurantes VALUES (2, 'Chifa Dragón Rojo', 'Chifa', 'Jesús María');
+INSERT INTO restaurantes VALUES (3, 'Cevichería La Chalaca', 'Marina', 'Miraflores');
+INSERT INTO restaurantes VALUES (4, 'Sanguchería Don Lucho', 'Sánguches', 'Barranco');
+INSERT INTO restaurantes VALUES (5, 'Anticuchería La Tía Pocha', 'Criolla', 'Surco');
+
+CREATE TABLE pedidos (id INTEGER PRIMARY KEY, restaurante_id INTEGER NOT NULL, distrito TEXT NOT NULL, monto REAL NOT NULL, estado TEXT NOT NULL, fecha TEXT NOT NULL);
+INSERT INTO pedidos VALUES (1, 1, 'Lince', 45.90, 'entregado', '2026-09-10');
+INSERT INTO pedidos VALUES (2, 3, 'Miraflores', 78.00, 'entregado', '2026-09-10');
+INSERT INTO pedidos VALUES (3, 2, 'San Isidro', 52.50, 'entregado', '2026-09-10');
+INSERT INTO pedidos VALUES (4, 1, 'Jesús María', 38.00, 'cancelado', '2026-09-11');
+INSERT INTO pedidos VALUES (5, 4, 'Barranco', 29.90, 'entregado', '2026-09-11');
+INSERT INTO pedidos VALUES (6, 5, 'Surco', 64.00, 'entregado', '2026-09-11');
+INSERT INTO pedidos VALUES (7, 3, 'Miraflores', 92.40, 'entregado', '2026-09-12');
+INSERT INTO pedidos VALUES (8, 2, 'Lince', 41.00, 'en camino', '2026-09-12');
+INSERT INTO pedidos VALUES (9, 1, 'Lince', 55.80, 'entregado', '2026-09-12');
+INSERT INTO pedidos VALUES (10, 4, 'Miraflores', 33.50, 'entregado', '2026-09-13');
+INSERT INTO pedidos VALUES (11, 5, 'Surco', 47.00, 'cancelado', '2026-09-13');
+INSERT INTO pedidos VALUES (12, 3, 'San Isidro', 85.00, 'entregado', '2026-09-13');
+INSERT INTO pedidos VALUES (13, 2, 'Lince', 60.00, 'entregado', '2026-09-14');
+INSERT INTO pedidos VALUES (14, 1, 'Surco', 39.90, 'entregado', '2026-09-14');
+INSERT INTO pedidos VALUES (15, 4, 'Barranco', 27.00, 'en camino', '2026-09-14');
+INSERT INTO pedidos VALUES (16, 5, 'Miraflores', 71.50, 'entregado', '2026-09-14');

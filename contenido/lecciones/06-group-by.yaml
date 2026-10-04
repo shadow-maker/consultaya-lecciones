@@ -1,0 +1,45 @@
+slug: group-by
+modulo: intermedio
+orden: 6
+dataset: delivery
+duracion_min: 15
+titulo: Agrupar con GROUP BY y filtrar grupos con HAVING
+resumen: 'Calcula un resumen por cada grupo: por distrito, por estado o por restaurante.'
+tags:
+- group
+- by
+- having
+- agrupar
+- grupos
+aprenderas:
+- Agrupar filas con GROUP BY
+- La regla de las columnas agrupadas
+- Filtrar grupos con HAVING
+- Diferencia entre WHERE y HAVING
+secciones:
+- titulo: GROUP BY
+  cuerpo_md: 'Con `GROUP BY` calculas un resumen por cada grupo. Regla de oro: cada columna del `SELECT` debe estar en el `GROUP BY` o dentro de una función de agregación.'
+  ejemplo:
+    sql: |-
+      SELECT estado, COUNT(*) AS pedidos
+      FROM pedidos
+      GROUP BY estado;
+    nota: null
+  tip: null
+- titulo: 'HAVING: filtrar grupos'
+  cuerpo_md: '`WHERE` filtra filas *antes* de agrupar; `HAVING` filtra los grupos *después* de calcularlos.'
+  ejemplo:
+    sql: |-
+      SELECT restaurante_id, SUM(monto) AS total
+      FROM pedidos
+      GROUP BY restaurante_id
+      HAVING SUM(monto) > 170;
+    nota: Solo los restaurantes cuyo total supera S/ 170.
+  tip: null
+ejercicios:
+- enunciado_md: Muestra cada **distrito** con el **monto total** de sus pedidos **entregados**, ordenados del mayor al menor total.
+  solucion_sql: SELECT distrito, SUM(monto) AS total FROM pedidos WHERE estado = 'entregado' GROUP BY distrito ORDER BY total DESC
+  ordenado: true
+- enunciado_md: Muestra los distritos que tienen **3 pedidos o más** (en cualquier estado), junto con su **cantidad de pedidos**.
+  solucion_sql: SELECT distrito, COUNT(*) FROM pedidos GROUP BY distrito HAVING COUNT(*) >= 3
+  ordenado: false

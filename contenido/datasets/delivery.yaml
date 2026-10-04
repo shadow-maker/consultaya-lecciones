@@ -1,0 +1,22 @@
+slug: delivery
+nombre: RapiMenú
+lugar: Lima Metropolitana
+icono: bike
+descripcion: 'Pedidos de una app de delivery por distrito: montos, estados y fechas.'
+tablas:
+- nombre: restaurantes
+  descripcion: Restaurantes afiliados a la app.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: nombre, tipo: TEXT}
+  - {nombre: tipo_cocina, tipo: TEXT}
+  - {nombre: distrito, tipo: TEXT}
+- nombre: pedidos
+  descripcion: Cada pedido con el distrito de entrega, monto (S/), estado y fecha.
+  columnas:
+  - {nombre: id, tipo: INTEGER}
+  - {nombre: restaurante_id, tipo: INTEGER}
+  - {nombre: distrito, tipo: TEXT}
+  - {nombre: monto, tipo: DECIMAL}
+  - {nombre: estado, tipo: TEXT}
+  - {nombre: fecha, tipo: DATE}
