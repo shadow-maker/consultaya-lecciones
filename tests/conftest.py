@@ -21,8 +21,10 @@ from sqlalchemy.orm import Session, sessionmaker  # noqa: E402
 
 from alembic import command  # noqa: E402
 from app.config import get_settings  # noqa: E402
+from app.contenido import ContenidoConstruido, cargar_y_construir  # noqa: E402
 from app.db import get_db  # noqa: E402
 from app.main import create_app  # noqa: E402
+from app.sembrar import sembrar  # noqa: E402
 
 SQL_TABLAS = (
     "SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename <> 'alembic_version'"
@@ -87,3 +89,28 @@ def client(app: FastAPI) -> Iterator[TestClient]:
     # raise_server_exceptions=False: los errores 500 se ven como respuestas reales.
     with TestClient(app, raise_server_exceptions=False) as cliente:
         yield cliente
+
+
+# --- Contenido sembrado (servicio lecciones) -----------------------------------------------------
+
+
+@pytest.fixture(scope="session")
+def datos_contenido() -> ContenidoConstruido:
+    """El contenido real de `contenido/`, calculado una sola vez con SQLite."""
+    return cargar_y_construir()
+
+
+@pytest.fixture(scope="session")
+def motor(engine: Engine) -> Iterator[Engine]:
+    """Engine con transacciones normales (el de `engine` es AUTOCOMMIT): el seed lo necesita
+    para que el rollback sea real."""
+    nuevo = create_engine(get_settings().test_database_url)  # type: ignore[arg-type]
+    yield nuevo
+    nuevo.dispose()
+
+
+@pytest.fixture
+def sembrado(motor: Engine, datos_contenido: ContenidoConstruido) -> ContenidoConstruido:
+    """Siembra el contenido real en la base `_test` (los tests no usan la base de desarrollo)."""
+    sembrar(motor, datos_contenido)
+    return datos_contenido
