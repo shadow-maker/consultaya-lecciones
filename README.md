@@ -6,7 +6,20 @@ Parte de **ConsultaYa**, una plataforma web para aprender SQL practicando, en es
 
 Stack: Python 3.12, FastAPI, SQLAlchemy 2 (síncrono), Alembic, psycopg 3, PyJWT, uv.
 
-> Estado: esqueleto de microservicio (health, errores estándar, validación de JWT, Alembic y tests). La lógica de lecciones (contenido, seed y endpoints) llega en la Ola 2.
+Contenido: 3 módulos, 3 datasets (con su archivo `.sqlite`), 8 lecciones y 16 ejercicios, que viven como código en `contenido/` y se cargan a Postgres con `scripts/seed.py`.
+
+## Endpoints
+
+Contrato completo: `../docs/02-contratos-api.md` (sección "Servicio lecciones"). Los `GET /api/lecciones/*` son públicos (un JWT inválido se ignora).
+
+| Método y ruta | Descripción |
+|---|---|
+| `GET /api/lecciones/modulos` | Módulos con sus lecciones y los ids de ejercicios |
+| `GET /api/lecciones/lecciones/{slug}` | Lección con secciones (ejemplos ya ejecutados), `anterior` y `siguiente` |
+| `GET /api/lecciones/ejercicios/{id}` | Enunciado y resultado esperado (**nunca** la solución) |
+| `GET /api/lecciones/datasets/{slug}` | Metadatos y tablas (con muestra de 5 filas) |
+| `GET /api/lecciones/datasets/{slug}/archivo` | Bytes del `.sqlite`, con `ETag` y `304` |
+| `GET /interno/estructura` | Solo red interna (la consume `progreso`); no se publica por nginx |
 
 ## Requisitos
 
@@ -25,6 +38,17 @@ uv run uvicorn app.main:app --port 8002 --reload
 - Health: <http://localhost:8002/health> y <http://localhost:8002/api/lecciones/health>
 - Documentación OpenAPI: <http://localhost:8002/api/lecciones/docs>
 
+## Contenido y seed
+
+```bash
+uv run alembic upgrade head
+uv run python scripts/seed.py      # imprime: 3 módulos · 3 datasets · 8 lecciones · 16 ejercicios
+```
+
+El seed valida `contenido/` (slugs y `orden` únicos, referencias a módulo y dataset, al menos un ejemplo y un ejercicio por lección), construye cada dataset con `sqlite3` en memoria (`contenido/datasets/<slug>.sql`), ejecuta cada ejemplo y cada solución para guardar los resultados, y escribe todo en **una sola transacción**: es idempotente (upsert por slug/id y borra lo que ya no existe) y, si algo falla, no escribe nada. Formato de `contenido/`: `../docs/04-contenido.md`. En Docker corre con `python scripts/seed.py` dentro del contenedor.
+
+Para añadir una lección: crea `contenido/lecciones/NN-<slug>.yaml`, ejecuta el seed y listo (los ejemplos y soluciones se ejecutan contra SQLite, igual que en el navegador con sql.js).
+
 ## Tests y calidad
 
 ```bash
@@ -33,7 +57,7 @@ uv run ruff check .
 uv run ruff format --check .
 ```
 
-Los tests recrean el esquema de la base `_test` con Alembic (`DROP SCHEMA public CASCADE`, protegido para que solo funcione sobre bases `consultaya_*_test`) y hacen `TRUNCATE` entre tests. Si no hay `.env`, usan los valores locales por defecto.
+Los tests siembran el contenido real en la base `_test` (nunca dependen del seed de desarrollo). Recrean el esquema de la base `_test` con Alembic (`DROP SCHEMA public CASCADE`, protegido para que solo funcione sobre bases `consultaya_*_test`) y hacen `TRUNCATE` entre tests. Si no hay `.env`, usan los valores locales por defecto.
 
 ## Migraciones
 
@@ -70,9 +94,12 @@ app/
   auth.py      emitir_token, validar_token, dependencia usuario_actual
   models.py    modelos ORM (importarlos aquí para Alembic)
   schemas.py   schemas Pydantic
-  routers/     un módulo por recurso (health incluido)
+  routers/     health y `lecciones` (endpoints públicos e interno)
+  contenido.py carga, validación y ejecución con SQLite del contenido (sin tocar Postgres)
+  sembrar.py   upsert transaccional del contenido en Postgres
 alembic/       migraciones
-scripts/       seeds y utilidades
+contenido/     módulos, datasets (.yaml + .sql) y lecciones (.yaml)
+scripts/       seed.py (siembra el contenido)
 tests/         pytest
 ```
 

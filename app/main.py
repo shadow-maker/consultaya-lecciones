@@ -6,7 +6,7 @@ from fastapi import FastAPI
 
 from app.config import PREFIJO, SERVICIO, get_settings
 from app.errors import registrar_manejadores
-from app.routers import health
+from app.routers import health, lecciones
 
 
 def create_app() -> FastAPI:
@@ -25,8 +25,8 @@ def create_app() -> FastAPI:
 
     app.include_router(health.router_raiz)
     app.include_router(health.router, prefix=PREFIJO)
-    # Routers de dominio: app.include_router(<modulo>.router, prefix=PREFIJO)
-    # Rutas internas (solo red Docker): app.include_router(<modulo>.router_interno)  # /interno/...
+    app.include_router(lecciones.router, prefix=PREFIJO)
+    app.include_router(lecciones.router_interno)  # /interno/... (solo red Docker)
     return app
 
 
