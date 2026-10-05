@@ -21,6 +21,9 @@ import yaml
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 RAIZ_CONTENIDO = Path(__file__).resolve().parent.parent / "contenido"
+# `utf-8-sig`: UTF-8 que además tolera un BOM (algunos editores de Windows lo agregan). Las
+# lecturas en modo texto normalizan CRLF a LF: resultados y sha256 no dependen del sistema.
+CODIFICACION = "utf-8-sig"
 PATRON_SLUG = re.compile(r"^[a-z0-9]+(-[a-z0-9]+)*$")
 MUESTRA_FILAS = 5
 
@@ -125,7 +128,7 @@ class ContenidoConstruido:
 
 def _leer_yaml(ruta: Path, raiz: Path) -> Any:
     try:
-        return yaml.safe_load(ruta.read_text(encoding="utf-8"))
+        return yaml.safe_load(ruta.read_text(encoding=CODIFICACION))
     except (OSError, yaml.YAMLError) as exc:
         raise ContenidoError(f"{ruta.relative_to(raiz)}: no se pudo leer el YAML ({exc}).") from exc
 
@@ -178,7 +181,7 @@ def cargar(raiz: Path = RAIZ_CONTENIDO) -> Contenido:
         ruta_sql = ruta.with_suffix(".sql")
         if not ruta_sql.is_file():
             raise ContenidoError(f"{ruta.relative_to(raiz)}: falta el archivo {ruta_sql.name}.")
-        datasets.append((ds, ruta_sql.read_text(encoding="utf-8")))
+        datasets.append((ds, ruta_sql.read_text(encoding=CODIFICACION)))
 
     lecciones = [
         _validar(LeccionYaml, _leer_yaml(ruta, raiz), ruta, raiz)

@@ -32,4 +32,8 @@ def main(argv: list[str] | None = None) -> int:
 
 
 if __name__ == "__main__":
+    # La consola de Windows puede no ser UTF-8 (el resumen lleva tildes y "·").
+    for flujo in (sys.stdout, sys.stderr):
+        if hasattr(flujo, "reconfigure"):
+            flujo.reconfigure(encoding="utf-8")
     raise SystemExit(main())

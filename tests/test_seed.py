@@ -431,3 +431,23 @@ def test_las_consultas_no_pueden_escribir(tmp_path: Path) -> None:
     )
     with pytest.raises(ContenidoError, match="ejercicio 1"):
         cargar_y_construir(raiz)
+
+
+def test_saltos_de_linea_crlf_y_bom_no_cambian_nada(
+    tmp_path: Path, datos_contenido: ContenidoConstruido
+) -> None:
+    """Un checkout en Windows (CRLF, o BOM de un editor) da los mismos resultados y sha256."""
+    raiz = _copiar_contenido(tmp_path)
+    for archivo in raiz.rglob("*"):
+        if archivo.suffix in {".yaml", ".sql"}:
+            crudo = archivo.read_bytes().replace(b"\r\n", b"\n").replace(b"\n", b"\r\n")
+            if archivo.name == "02-where.yaml":
+                crudo = b"\xef\xbb\xbf" + crudo
+            archivo.write_bytes(crudo)
+    assert b"\r\n" in (raiz / "datasets" / "bodega.sql").read_bytes()
+
+    construido = cargar_y_construir(raiz)
+    assert construido.datasets == datos_contenido.datasets  # incluye `archivo` y `archivo_sha256`
+    assert construido.modulos == datos_contenido.modulos
+    assert construido.lecciones == datos_contenido.lecciones
+    assert construido.ejercicios == datos_contenido.ejercicios

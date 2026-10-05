@@ -29,7 +29,7 @@ def _con_rutas_de_prueba(app: FastAPI) -> TestClient:
 
     @app.get(f"{PREFIJO}/_prueba/explota")
     def explota() -> None:
-        raise RuntimeError("secreto interno: postgresql://ca@localhost/x")
+        raise RuntimeError("secreto interno: postgresql://usuario:clave@host/x")
 
     return TestClient(app, raise_server_exceptions=False)
 

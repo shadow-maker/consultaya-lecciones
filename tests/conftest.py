@@ -5,12 +5,29 @@ from collections.abc import Iterator
 from pathlib import Path
 
 import pytest
+from dotenv import dotenv_values
 
-# Valores locales por defecto, antes de importar `app` (un `.env` o el entorno los pisan).
-os.environ.setdefault(
-    "TEST_DATABASE_URL", "postgresql+psycopg://ca@localhost:5432/consultaya_lecciones_test"
-)
-os.environ.setdefault("DATABASE_URL", os.environ["TEST_DATABASE_URL"])
+RAIZ = Path(__file__).resolve().parent.parent
+
+
+def _url_de_pruebas() -> str:
+    """`TEST_DATABASE_URL` del entorno o del `.env`; si falta, `pytest` termina con un aviso."""
+    url = os.environ.get("TEST_DATABASE_URL") or dotenv_values(RAIZ / ".env").get(
+        "TEST_DATABASE_URL"
+    )
+    if not url or "USUARIO" in url:
+        pytest.exit(
+            "Falta TEST_DATABASE_URL. Defínela en el entorno o en el archivo .env "
+            "(copia .env.example a .env y reemplaza USUARIO y PASSWORD por los de tu Postgres). "
+            "Debe apuntar a la base consultaya_lecciones_test.",
+            returncode=2,
+        )
+    return url
+
+
+# Antes de importar `app`: los tests siempre usan la base `_test`, también para `DATABASE_URL`.
+os.environ["TEST_DATABASE_URL"] = _url_de_pruebas()
+os.environ["DATABASE_URL"] = os.environ["TEST_DATABASE_URL"]
 os.environ.setdefault("JWT_SECRET", "dev-secret-cambiar")
 
 from alembic.config import Config  # noqa: E402
@@ -29,7 +46,6 @@ from app.sembrar import sembrar  # noqa: E402
 SQL_TABLAS = (
     "SELECT tablename FROM pg_tables WHERE schemaname = 'public' AND tablename <> 'alembic_version'"
 )
-RAIZ = Path(__file__).resolve().parent.parent
 
 
 @pytest.fixture(scope="session")
